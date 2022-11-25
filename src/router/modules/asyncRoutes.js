@@ -127,13 +127,13 @@ export const asyncRoutes = [
       {
         path: 'spglOne',
         name: 'spglOne',
-        component: () => import('@/views/spgl/components/spglOne'),
+        component: () => import('@/views/spgl/components/type'),
         meta: { title: '商品类型' },
       },
       {
         path: 'spglTwo',
         name: 'spglTwo',
-        component: () => import('@/views/spgl/components/spglTwo'),
+        component: () => import('@/views/spgl/components/shooplist'),
         meta: { title: '商品管理' },
       },
     ],
