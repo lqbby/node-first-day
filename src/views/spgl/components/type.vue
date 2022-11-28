@@ -194,6 +194,7 @@ export default {
   }
   .top{
     height: 64px;
+    margin-top:20px;
     margin-bottom:20px;
     padding-left:17px;
     display: flex;

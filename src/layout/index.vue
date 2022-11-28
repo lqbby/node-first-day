@@ -65,6 +65,9 @@ export default {
     top: 0;
   }
 }
+.main-container{
+  background-color: #f8fafd;
+}
 .drawer-bg {
   background: #000;
   opacity: 0.3;
