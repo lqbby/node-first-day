@@ -109,7 +109,7 @@
       </div>
       <!-- 新建和修改 -->
     <el-dialog
-      :title="classId?'编辑商品':'新增商品'"
+      :title="skuId?'编辑商品':'新增商品'"
       :visible.sync="centerDialogVisible"
       :before-close="beforeClose"
       width="45%"
@@ -196,18 +196,21 @@
           prop="skuImage"
           label-width="140px"
         >
-          <template>
-            <el-upload
-              action="#"
-              :http-request="imgup"
-              class="avatar-uploader"
-              :show-file-list="false"
-              :before-upload="imggo"
-              >
-              <img v-if="shoopForm.skuImage" :src="shoopForm.skuImage" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-          </template>
+          <el-upload
+            class="avatar-uploader"
+            action="http://likede2-admin.itheima.net/likede/api/vm-service/sku/fileUpload"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+            name="fileName"
+          >
+            <img
+              v-if="shoopForm.skuImage"
+              :src="shoopForm.skuImage"
+              class="avatar"
+            />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -221,7 +224,7 @@
 
 <script>
 import { shoopSearch } from '@/api/shoop' 
-import { getshooplist,imgpost } from '@/api/shoop/shooplist' 
+import { getshooplist,postshoop,putshoop } from '@/api/shoop/shooplist' 
 export default {
   data(){
     return{
@@ -254,7 +257,7 @@ export default {
           {required:true,message: '请输入品牌'}
         ]
       },
-      classId:0,
+      skuId:0,
       list:[],
       formInline:{
         skuName:'',
@@ -285,33 +288,36 @@ export default {
       this.totalCount =data.totalCount
     },
     async submit(){
-    //  try{
-    //    await this.$refs.shoopForm.validate()
-    //    if(this.classId){
-    //       await putshoop({...this.shoopForm,classId:this.classId})
-    //       this.$message.success('编辑成功了')
-    //       this.classId = 0
-    //    }else{
-    //       if(this.list.some(item => item.className === this.shoopForm.className)){
-    //         return this.$message.error('已有此类型商品')
-    //       }
-    //       await postshoop(this.shoopForm)
-    //       this.$message.success('添加成功了')
-    //     }
-    //     this.Seach()
-    //     this.beforeClose()
-    //   }catch(err){
-    //       console.log(err);
-    //   }
+     try{
+       await this.$refs.shoopForm.validate()
+       if(this.skuId){
+          await putshoop({...this.shoopForm,skuId:this.skuId})
+          this.$message.success('编辑成功了')
+          this.skuId = 0
+       }else{
+          this.shoopForm.price = this.shoopForm.price * 100
+          await postshoop(this.shoopForm)
+          this.$message.success('添加成功了')
+        }
+        this.Seach()
+        this.beforeClose()
+      }catch(err){
+          console.log(err);
+      }
     },
     async putshoop(id){
-      // this.centerDialogVisible = true
-      // this.shoopForm.className = id.className
-      // this.classId = id.classId
+      this.centerDialogVisible = true
+      this.shoopForm.skuName = id.skuName
+      this.shoopForm.skuImage = id.skuImage
+      this.shoopForm.price = id.price/100
+      this.shoopForm.classId = id.classId
+      this.shoopForm.unit = id.unit
+      this.shoopForm.brandName = id.brandName
+      this.skuId = id.skuId
     },
     beforeClose(){
-      // this.$refs.shoopForm.resetFields()
-      // this.centerDialogVisible  = false
+      this.$refs.shoopForm.resetFields()
+      this.centerDialogVisible  = false
     },
     upprice(num){
       console.log(num);
@@ -325,27 +331,24 @@ export default {
       const {data:{currentPageRecords}} = await shoopSearch()
       this.classlist = currentPageRecords
     },
-    async imggo(file){
-      console.log(file);
-      const res = await imgpost({fileName:file})
+        // 图片上传
+    handleAvatarSuccess (res) {
       console.log(res);
-      // const isJPG = file.type === 'image/jpeg';
-      // const isPNG = file.type === 'image/png';
-      // const isLt2M = (file.size / 1024 / 1024 / 1024) < 100;
-      // console.log((file.size / 1024 / 1024 / 1024) < 100);
-      // if (!isJPG && !isPNG) {
-      //   return this.$message.error('上传头像图片只能是 jpg/png 格式!');
-      // }
-      // if (!isLt2M) {
-      //   return this.$message.error('上传头像图片大小不能大于100kb!');
-      // }
-      // console.log(file);
-      // this.shoopForm.skuImage = 'http://likede2-java.itheima.net/image/'+file.name
-      // console.log(this.shoopForm.skuImage);
+      this.shoopForm.skuImage = res
     },
-    imgup(){
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isPNG = file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 / 102.4 < 100
 
-    }
+      if (!isJPG && !isPNG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 100kb!')
+      }
+      return isJPG && isLt2M
+    },
   }
 }
 </script>
