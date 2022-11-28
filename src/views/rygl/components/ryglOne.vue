@@ -23,7 +23,7 @@
             v-model="userForm.image"
             class="avatar-uploader"
             name="fileName"
-            action="http://localhost:9528/api/vm-service/sku/fileUpload"
+            action="https://tc.lqbby.com:1443/vip/2022/11/14/63723123e0178.gif"
             :show-file-list="false"
             :on-success="success"
             :before-upload="upload"
