@@ -3,11 +3,11 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 const request = axios.create({
-  baseURL: 'http://likede2-admin.itheima.net/likede',
+  baseURL: 'https://likede2-admin.itheima.net/likede',
 })
 
 const service = axios.create({
-  baseURL: 'http://likede2-admin.itheima.net/likede',
+  baseURL: 'https://likede2-admin.itheima.net/likede',
 
   timeout: 5000,
 })

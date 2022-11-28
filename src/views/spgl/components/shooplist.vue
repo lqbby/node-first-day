@@ -22,6 +22,7 @@
             新建
           </el-button>
           <el-button
+          @click="importdialog = true"
           style="background-color:#fbf4f0;color:#333;">
             导入数据
           </el-button>
@@ -176,13 +177,11 @@
           prop="classId"
           label-width="140px"
         >
-          <!-- <el-input placeholder="请输入" v-model="shoopForm.classId" autocomplete="off"> -->
             <el-select 
             style="width:100%;"
             @focus="classshoop" v-model="shoopForm.classId" placeholder="请选择">
               <el-option v-for="item in classlist" :key="item.classId" :label="item.className" :value="item.classId"></el-option>
             </el-select>
-          <!-- </el-input> -->
         </el-form-item>
         <el-form-item
           label="规格："
@@ -198,7 +197,7 @@
         >
           <el-upload
             class="avatar-uploader"
-            action="http://likede2-admin.itheima.net/likede/api/vm-service/sku/fileUpload"
+            action="https://likede2-admin.itheima.net/likede/api/vm-service/sku/fileUpload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
@@ -219,15 +218,46 @@
       </span>
     </el-dialog>
     </div>
+    <!-- 数据导入对话框 -->
+    <el-dialog
+      title="数据导入"
+      :visible.sync="importdialog"
+      width="30%"
+      >
+      <el-upload
+        ref="upload"
+        name="fileName"
+        accept=".xls,.xlsx"
+        class="upload-demo"
+        action="https://likede2-admin.itheima.net/likede/api/vm-service/sku/upload"
+        :on-preview="handlePreview"
+        :headers="headers"
+        :auto-upload="false"
+        style="display:flex;flex-direction: column;align-items: center;"
+        >
+        <el-button size="small" type="primary">上传文件</el-button>
+        <div slot="tip" class="el-upload__tip">支持扩展名：xls、xlsx</div>
+      </el-upload>
+      <span slot="footer" class="dialog-footer" style="display:flex;justify-content: center;">
+        <el-button @click="importdialog = false">取 消</el-button>
+        <el-button type="primary" @click.prevent="submitprimary">上 传</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { setToken1,setToken2,setToken3,removeToken } from '@/utils/auth'
 import { shoopSearch } from '@/api/shoop' 
 import { getshooplist,postshoop,putshoop } from '@/api/shoop/shooplist' 
 export default {
   data(){
     return{
+      headers: {
+        Authorization: this.$store.getters.token,
+        Accept: 'application/json, text/plain',
+      },
+      importdialog:false,
       classlist:[],
       shoopForm:{
         skuName:'',
@@ -272,6 +302,10 @@ export default {
     }
   },
   created(){
+    removeToken()
+    setToken1(this.$store.getters.token)
+    setToken2(this.$store.state.user.userInfo.userId)
+    setToken3(this.$store.state.user.uname)
     this.Seach()
   },
   methods:{
@@ -349,6 +383,17 @@ export default {
       }
       return isJPG && isLt2M
     },
+    // 文件上传
+    submitprimary() {
+        this.$refs.upload.submit();
+        this.importdialog = false
+      },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      }
   }
 }
 </script>
