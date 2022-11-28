@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { getRoleListAPI, getCityListAPI, addRoleAPI, upRoleAPI } from '@/api/user'
+import { getRoleListAPI, getCityListAPI, addRoleAPI, upRoleAPI } from '@/api/personnel'
 export default {
   name: 'NewlyBuild',
   props: {
