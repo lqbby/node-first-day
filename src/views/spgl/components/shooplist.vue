@@ -327,7 +327,6 @@ export default {
        if(this.skuId){
           await putshoop({...this.shoopForm,skuId:this.skuId})
           this.$message.success('编辑成功了')
-          this.skuId = 0
        }else{
           this.shoopForm.price = this.shoopForm.price * 100
           await postshoop(this.shoopForm)
@@ -350,7 +349,16 @@ export default {
       this.skuId = id.skuId
     },
     beforeClose(){
+      this.shoopForm = {
+        skuName:'',
+        skuImage:'',
+        price:'',
+        classId:'',
+        unit:'',
+        brandName:'',
+      }
       this.$refs.shoopForm.resetFields()
+      this.skuId = 0
       this.centerDialogVisible  = false
     },
     upprice(num){

@@ -180,7 +180,11 @@ export default {
         });
     },
     beforeClose(){
+      this.shoopForm = {
+        className:'',
+      }
       this.$refs.shoopForm.resetFields()
+      this.classId = 0
       this.centerDialogVisible = false
     }
   }

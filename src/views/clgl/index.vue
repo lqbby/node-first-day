@@ -156,6 +156,7 @@
     <el-dialog
       title="策略详细"
       :visible.sync="detailedVisible"
+      :before-close="closevm"
       width="40%">
       <p>策略名称：{{vm.policyName}}</p>
       <div><span>策略方案：</span>
@@ -257,6 +258,15 @@ export default {
       this.totalPage = data.totalPage
       this.totalCount =data.totalCount
     },
+    closevm(){
+      this.vm = {
+        policyName:'',
+        totalPage:0,
+        totalCount:0,
+        pageIndex:0,
+      }
+      this.detailedVisible = false
+    },
     async Seachvm(num){
       if(typeof num === 'number'){
         if(+this.vm.pageIndex + num < 1 || +this.vm.pageIndex + num > this.vm.totalPage) return
@@ -314,6 +324,11 @@ export default {
         });
     },
     beforeClose(){
+      this.shoopForm = {
+        policyName:'',
+        discount:''
+      }
+      this.policyId = 0
       this.$refs.shoopForm.resetFields()
       this.centerDialogVisible = false
     },
