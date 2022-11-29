@@ -237,6 +237,14 @@ export default {
           {required:true,message: '请输入策略方案'}
         ]
       },
+      rules:{
+        policyName:[
+          {required:true,message: '请输入策略名称'}
+        ],
+        discount:[
+          {required:true,message: '请输入策略方案'}
+        ]
+      },
       totalPage:0,//全部页面
       totalCount:0,//全部数据
       centerDialogVisible:false
