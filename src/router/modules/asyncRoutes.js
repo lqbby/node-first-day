@@ -58,29 +58,29 @@ export const asyncRoutes = [
   {
     path: '/sbgl',
     component: Layout,
-    redirect: '/sbgl/sbglOne',
+    redirect: '/sbgl/index',
     name: 'sbgl',
     meta: {
       title: '设备管理',
-      icon: 'link',
+      icon: 'equipment',
     },
     children: [
       {
-        path: 'sbglOne',
-        component: () => import('@/views/sbgl/components/sbglOne'), // Parent router-view
-        name: 'sbglOne',
+        path: 'equipment',
+        component: () => import('@/views/sbgl/equipment'), // Parent router-view
+        name: 'equipment',
         meta: { title: '设备管理' },
       },
       {
-        path: 'sbglTwo',
-        component: () => import('@/views/sbgl/components/sbglTwo'), // Parent router-view
-        name: 'sbglTwo',
+        path: 'equipmentState',
+        component: () => import('@/views/sbgl/equipmentState'),
+        name: 'equipmentState',
         meta: { title: '设备状态' },
       },
       {
-        path: 'sbglThree',
-        component: () => import('@/views/sbgl/components/sbglThree'),
-        name: 'sbglThree',
+        path: 'equipmentType',
+        component: () => import('@/views/sbgl/equipmentType'),
+        name: 'equipmentType',
         meta: { title: '设备类型管理' },
       },
     ],

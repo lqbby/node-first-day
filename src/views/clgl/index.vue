@@ -206,7 +206,7 @@
 </template>
 
 <script>
-import { getpolicylist,delpolicy,postpolicy,putpolicy,getvmList } from '@/api/policy' 
+import { getpolicylist,delpolicy,postpolicy,putpolicy,getvmList } from '@/api/shoop/policy' 
 export default {
   data(){
     return{
