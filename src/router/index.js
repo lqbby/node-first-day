@@ -5,12 +5,11 @@ import asyncRoutes from './modules/asyncRoutes'
 import constantRoutes from './modules/constantRoutes'
 Vue.use(Router)
 
-
 const createRouter = () =>
   new Router({
     // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
-    routes: [...constantRoutes,...asyncRoutes],
+    routes: [...constantRoutes, ...asyncRoutes]
   })
 
 const router = createRouter()

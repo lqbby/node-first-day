@@ -13,44 +13,41 @@ export const asyncRoutes = [
         path: 'gdglOne',
         name: 'gdglOne',
         component: () => import('@/views/gdgl/components/gdglOne'),
-        meta: { title: '运营工单' },
+        meta: { title: '运营工单' }
       },
       {
         path: 'gdglTwo',
         name: 'gdglTwo',
         component: () => import('@/views/gdgl/components/gdglTwo'),
-        meta: { title: '运维工单' },
-      },
-    ],
+        meta: { title: '运维工单' }
+      }
+    ]
   },
   // 点位管理
   {
-    path: '/dwgl',
+    path: '/dwgl2',
     component: Layout,
-    redirect: '/dwgl/dwglOne',
-    name: 'dwgl',
+    redirect: '/dwgl2/area',
+    name: 'dwgl2',
     meta: {
       title: '点位管理',
-      icon: 'list',
+      icon: 'list'
     },
     children: [
       {
-        path: 'dwglOne',
-        component: () => import('@/views/dwgl/components/dwglOne'), // Parent router-view
-        name: 'dwglOne',
-        meta: { title: '区域管理' },
+        path: "/dwgl2/area",
+        component: () => import("@/views/dwgl2/area.vue"),
+        meta: { title: "区域管理" },
       },
       {
-        path: 'dwglTwo',
-        component: () => import('@/views/dwgl/components/dwglTwo'), // Parent router-view
-        name: 'dwglTwo',
-        meta: { title: '点位管理' },
+        path: "/dwgl2/point",
+        component: () => import("@/views/dwgl2/point.vue"),
+        meta: { title: "点位管理" },
       },
       {
-        path: 'dwglThree',
-        component: () => import('@/views/dwgl/components/dwglThree'),
-        name: 'dwglThree',
-        meta: { title: '合作商管理' },
+        path: "/dwgl2/partners",
+        component: () => import("@/views/dwgl2/partners.vue"),
+        meta: { title: "合作商管理" },
       },
     ],
   },
@@ -62,59 +59,56 @@ export const asyncRoutes = [
     name: 'sbgl',
     meta: {
       title: '设备管理',
-      icon: 'equipment',
+      icon: 'equipment'
     },
     children: [
       {
         path: 'equipment',
         component: () => import('@/views/sbgl/equipment'), // Parent router-view
         name: 'equipment',
-        meta: { title: '设备管理' },
+        meta: { title: '设备管理' }
       },
       {
         path: 'equipmentState',
         component: () => import('@/views/sbgl/equipmentState'),
         name: 'equipmentState',
-        meta: { title: '设备状态' },
+        meta: { title: '设备状态' }
       },
       {
         path: 'equipmentType',
         component: () => import('@/views/sbgl/equipmentType'),
         name: 'equipmentType',
-        meta: { title: '设备类型管理' },
-      },
-    ],
+        meta: { title: '设备类型管理' }
+      }
+    ]
   },
   // 人员管理
   {
     path: '/rygl',
     component: Layout,
-    redirect: '/rygl/ryglOne',
+    redirect: '/rygl/index',
     name: 'rygl',
     meta: {
       title: '人员管理',
-      icon: 'user',
+      icon: 'user'
     },
     children: [
       {
-        path: 'ryglOne',
-        component: () => import('@/views/rygl/components/ryglOne'), // Parent router-view
-        name: 'ryglOne',
-        meta: { title: '人员列表' },
+        path: '/rygl/index',
+        component: () => import('@/views/rygl/personnelList.vue'),
+        meta: { title: '人员列表' }
       },
       {
-        path: 'ryglTwo',
-        component: () => import('@/views/rygl/components/ryglTwo'), // Parent router-view
-        name: 'ryglTwo',
-        meta: { title: '人效统计' },
+        path: '/rygl/rygl-task-stats',
+        component: () => import('@/views/rygl/workStatistics.vue'),
+        meta: { title: '人效统计' }
       },
       {
-        path: 'ryglThree',
-        component: () => import('@/views/rygl/components/ryglThree'),
-        name: 'ryglThree',
-        meta: { title: '工作量列表' },
-      },
-    ],
+        path: '/rygl/rygl-work',
+        component: () => import('@/views/rygl/workList.vue'),
+        meta: { title: '工作量列表' }
+      }
+    ]
   },
   // 商品管理
   {
@@ -128,15 +122,15 @@ export const asyncRoutes = [
         path: 'spglOne',
         name: 'spglOne',
         component: () => import('@/views/spgl/components/type'),
-        meta: { title: '商品类型' },
+        meta: { title: '商品类型' }
       },
       {
         path: 'spglTwo',
         name: 'spglTwo',
         component: () => import('@/views/spgl/components/shooplist'),
-        meta: { title: '商品管理' },
-      },
-    ],
+        meta: { title: '商品管理' }
+      }
+    ]
   },
   // 策略管理
   {
@@ -147,9 +141,9 @@ export const asyncRoutes = [
         path: 'clgl',
         name: 'clgl',
         component: () => import('@/views/clgl'),
-        meta: { title: '策略管理', icon: 'tree' },
-      },
-    ],
+        meta: { title: '策略管理', icon: 'tree' }
+      }
+    ]
   },
   // 订单管理
   {
@@ -160,9 +154,9 @@ export const asyncRoutes = [
         path: 'ddgl',
         name: 'ddgl',
         component: () => import('@/views/ddgl'),
-        meta: { title: '订单管理', icon: 'form' },
-      },
-    ],
+        meta: { title: '订单管理', icon: 'form' }
+      }
+    ]
   },
   // 对账统计
   {
@@ -173,10 +167,10 @@ export const asyncRoutes = [
         path: 'dztj',
         name: 'dztj',
         component: () => import('@/views/dztj'),
-        meta: { title: '对账统计', icon: 'money' },
-      },
-    ],
-  },
+        meta: { title: '对账统计', icon: 'money' }
+      }
+    ]
+  }
 ]
 
 export default asyncRoutes
