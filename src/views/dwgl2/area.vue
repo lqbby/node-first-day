@@ -53,16 +53,16 @@
 </template>
 
 <script>
-import bkdTable from './components/bkdTable.vue'
-import SearchTop from './components/searchTop.vue'
+import bkdTable from '../dwgl2/components/bkdTable.vue'
+import SearchTop from '../dwgl2/components/searchTop.vue'
 import {
   getAreaListApi,
   editAreaDetailApi,
   addAreaListApi,
   DelAreaDetaillApi
-} from '@/api/point'
-import dialogPoint from './components/dialogPoint.vue'
-import ShowDialogPoint from './components/showDialogPoint.vue'
+} from '@/api/points'
+import dialogPoint from '../dwgl2/components/dialogPoint.vue'
+import ShowDialogPoint from '../dwgl2/components/showDialogPoint.vue'
 export default {
   data() {
     return {

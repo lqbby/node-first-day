@@ -45,17 +45,17 @@
 </template>
 
 <script>
-import SearchTop from './components/searchTop.vue'
-import bkdTable from './components/bkdTable.vue'
-import ShowDetail from './pointComponent/showDetailDialog.vue'
-import { getAreaListApi } from '@/api/point'
+import SearchTop from '../dwgl2/components/searchTop.vue'
+import bkdTable from '../dwgl2/components/bkdTable.vue'
+import ShowDetail from '../dwgl2/pointComponent/showDetailDialog.vue'
+import { getAreaListApi } from '@/api/points'
 import {
   getNodeSearchApi,
   addNodeListApi,
   editNodeDetailApi,
   delNodeDetailApi
-} from '@/api/pointLocation'
-import addDialog from './pointComponent/addDialog.vue'
+} from '@/api/pointLocations'
+import addDialog from '../dwgl2/pointComponent/addDialog.vue'
 export default {
   data() {
     return {

@@ -25,31 +25,29 @@ export const asyncRoutes = [
   },
   // 点位管理
   {
-    path: '/dwgl',
+    path: '/dwgl2',
     component: Layout,
-    redirect: '/dwgl/region',
-    name: 'dwgl',
+    redirect: '/dwgl2/area',
+    name: 'dwgl2',
     meta: {
       title: '点位管理',
       icon: 'list'
     },
     children: [
       {
-        path: "/dwgl/region",
-        component: () => import("@/views/dwgl/area.vue"),
+        path: "/dwgl2/area",
+        component: () => import("@/views/dwgl2/area.vue"),
         meta: { title: "区域管理" },
       },
       {
-        path: 'dwglTwo',
-        component: () => import('@/views/dwgl/components/dwglTwo'), // Parent router-view
-        name: 'dwglTwo',
-        meta: { title: '点位管理' }
+        path: "/dwgl2/point",
+        component: () => import("@/views/dwgl2/point.vue"),
+        meta: { title: "点位管理" },
       },
       {
-        path: 'dwglThree',
-        component: () => import('@/views/dwgl/components/dwglThree'),
-        name: 'dwglThree',
-        meta: { title: '合作商管理' },
+        path: "/dwgl2/partners",
+        component: () => import("@/views/dwgl2/partners.vue"),
+        meta: { title: "合作商管理" },
       },
     ],
   },

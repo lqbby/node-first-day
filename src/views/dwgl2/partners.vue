@@ -48,17 +48,17 @@
 </template>
 
 <script>
-import SearchTop from './components/searchTop.vue'
-import bkdTable from './components/bkdTable.vue'
-import ShowDetail from './partnerComponent/showDetailDialog.vue'
+import SearchTop from '../dwgl2/components/searchTop.vue'
+import bkdTable from '../dwgl2/components/bkdTable.vue'
+import ShowDetail from '../dwgl2/partnerComponent/showDetailDialog.vue'
 import {
   getPartnerSearchApi,
   addPartnerListApi,
   editPartnerListApi,
   resetPartnerMessageApi,
   delPartnerApi
-} from '@/api/partner'
-import addDialog from './partnerComponent/addDialog.vue'
+} from '@/api/partners'
+import addDialog from '../dwgl2/partnerComponent/addDialog.vue'
 export default {
   name: 'partner',
   data() {

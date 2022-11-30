@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getAreaDetailApi, getAreaListApi } from '@/api/point'
+import { getAreaDetailApi, getAreaListApi } from '@/api/points'
 export default {
   data() {
     const checkName = async (rule, value, callback) => {

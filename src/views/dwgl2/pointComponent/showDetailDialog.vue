@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { getNodeDetailApi } from '@/api/pointLocation'
+import { getNodeDetailApi } from '@/api/pointLocations'
 export default {
   name: 'ShowDetail',
   data() {

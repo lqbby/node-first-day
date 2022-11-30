@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { addPartnerListApi } from '@/api/partner'
+// import { addPartnerListApi } from '@/api/partner'
 import { regionData, CodeToText, TextToCode } from 'element-china-area-data'
 export default {
   name: 'addDialogPartnter',

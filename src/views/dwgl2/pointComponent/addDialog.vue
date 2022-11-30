@@ -102,7 +102,7 @@ import {
   getNodeSearchApi,
   getBusinessListApi,
   getPartnerListApi
-} from '@/api/pointLocation'
+} from '@/api/pointLocations'
 import { regionData, CodeToText, TextToCode } from 'element-china-area-data'
 export default {
   name: 'addDialog',

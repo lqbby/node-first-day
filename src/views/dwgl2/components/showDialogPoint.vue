@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { getAreanodelApi } from '@/api/point'
+import { getAreanodelApi } from '@/api/points'
 export default {
   data() {
     return {
