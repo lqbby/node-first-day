@@ -57,7 +57,7 @@ export const asyncRoutes = [
     name: 'sbgl',
     meta: {
       title: '设备管理',
-      icon: 'equipment'
+      icon: 'tree-table'
     },
     children: [
       {
@@ -164,7 +164,7 @@ export const asyncRoutes = [
       {
         path: "",
         component: () => import("@/views/dztj"),
-        meta: { title: "对账统计", icon: "对账统计" }
+        meta: { title: "对账统计", icon: "money" }
       }
     ]
   }

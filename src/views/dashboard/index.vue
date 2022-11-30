@@ -66,12 +66,15 @@
           <div class="XiaoShouShuJu">
             <div class="header">
               <div class="title">
-                销售数据 <span class="sub-title">{{ monday }} ~ {{ nowdate.end }}</span>
+                销售数据 <span class="sub-title">{{ weekstart }} ~ {{ weekend }}</span>
               </div>
               <div class="week-month-year">
-                <div class="item is-checked">周</div>
-                <div class="item">月</div>
-                <div class="item">年</div>
+                <div class="item"
+                 v-for="(item, index) in timeDaty"
+                :key="index"
+                :class="active === index ? 'is-checked' : ''"
+                @click="removeActive(index)"
+                >{{ item.day }}</div>
               </div>
             </div>
             <div class="charts">
@@ -84,20 +87,20 @@
           <div class="ShangPingReBang">
             <div class="header">
               <div class="title">
-                商品热榜 <span class="sub-title">2022.11.01 ~ 2022.11.23</span>
+                商品热榜 <span class="sub-title">{{ nowdate.start }} ~ {{ nowdate.end }}</span>
               </div>
             </div>
             <div class="body">
               <el-row :gutter="20">
-                <el-col>
+                <el-col  style="margin-bottom: 25px;" v-for="(item,index) in skuTop" :key="index">
                   <div class="el-col-5">
-                    <div class="top top1">1</div>
+                    <div :class="`top top${index+1}`">{{ index+1 }}</div>
                   </div>
                   <div class="el-col-13">
-                    <div class="sku-name">统一阿萨姆奶茶</div>
+                    <div class="sku-name">{{item.skuName}}</div>
                   </div>
                   <div class="el-col-6">
-                    <div class="count">1148单</div>
+                    <div class="count">{{item.count}}单</div>
                   </div>
                 </el-col>
               </el-row>
@@ -118,9 +121,9 @@
             <div class="charts">
               <div ref="box3" class="chart" style="width:450px ;height:280px" />
               <div class="collect">
-                <div class="count">16</div>
+                <div class="count">{{ collectCount }}</div>
                 <div class="name">点位数</div>
-                <div class="count count2">8</div>
+                <div class="count count2">{{ count }}</div>
                 <div class="name">合作商数</div>
               </div>
             </div>
@@ -149,14 +152,21 @@
 </template>
 
 <script>
-import { gettaskReportInfo, getorderCount, getorderAmount, getamountCollect } from '@/api/dataS'
+import { gettaskReportInfo, getorderCount, getorderAmount, getamountCollect, getregionCollect, getskuTop, getnodeCollect, getcount } from '@/api/dataS'
 import { getDate, getMonday } from '@/utils/date'
 import { mapGetters } from 'vuex'
+import dayjs from 'dayjs'
 import * as echarts from 'echarts'
 export default {
   name: 'Dashboard',
   data() {
     return {
+      active: 0,
+      timeDaty: [{ day: '周' }, { day: '月' }, { day: '年' }],
+      ZYNamount:{},
+      ZYNregion:{},
+      weekstart:'',
+      weekend:'',
       nowdate: {},
       total: 0,
       cancelTotal: 0,
@@ -165,7 +175,11 @@ export default {
       orderCount: 0,
       orderAmount: 0,
       monday: '',
-      amountCollect: {}
+      amountCollect: {},
+      skuTop:[],
+      collect:{},
+      collectCount: 0,
+      count: 0
     }
   },
   async created() {
@@ -182,23 +196,34 @@ export default {
     this.orderCount = Count.data
     const Amount = await getorderAmount(this.nowdate.start, this.nowdate.end)
     this.orderAmount = (Amount.data / 1000000).toFixed(2)
+    const sku = await getskuTop(this.nowdate.start, this.nowdate.end)
+    this.skuTop = sku.data
+    const count = await getcount()
+    this.count = count.data
   },
   computed: {
     ...mapGetters(['name'])
   },
   async mounted() {
-    const Monday = getMonday()
-    console.log(Monday)
-    this.monday = Monday
-    const res = await getamountCollect(1, this.monday, this.nowdate.end)
-    console.log(res.data)
-    res.data.series.forEach((item, i) => {
-      res.data.series[i] = item / 100
-    })
-    res.data.xAxis.forEach((item, i) => {
+    // const Monday = getMonday()
+    // console.log(Monday)
+    // this.monday = Monday
+    // const res = await getamountCollect(1, this.monday, this.nowdate.end)
+    // console.log(res.data)
+   
+    // console.log(res.data)
 
-    })
-    console.log(res.data)
+    const collectType = 1
+    const start = dayjs(new Date()).startOf('week').format('YYYY-MM-DD')
+    const end = dayjs(new Date()).format('YYYY-MM-DD')
+    this.weekstart = start
+    this.weekend = end
+    const z1= await getamountCollect(collectType, start, end)
+    const z2= await getregionCollect(start, end)
+    this.ZYNamount = z1.data
+    this.ZYNregion = z2.data
+    const amount = this.ZYNamount
+    const region = this.ZYNregion
     const myChart1 = echarts.init(this.$refs.box1)
     myChart1.setOption({
       title: {
@@ -208,7 +233,7 @@ export default {
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: ['星期一', '星期二', '星期三', '星期四', '星期五']
+        data: amount.xAxis
       },
       yAxis: {
         type: 'value',
@@ -216,7 +241,7 @@ export default {
       },
       series: [
         {
-          data: res.data.series,
+          data: amount.series,
           itemStyle: {
             color: 'rgba(216, 20, 20, 1)'
           },
@@ -259,7 +284,7 @@ export default {
       xAxis: [
         {
           type: 'category',
-          data: ['北京平', '霍营街'],
+          data: region.xAxis,
           axisTick: {
             alignWithLabel: true
           }
@@ -276,7 +301,7 @@ export default {
           name: 'Direct',
           type: 'bar',
           barWidth: '10%',
-          data: [8082.73, 979.9],
+          data: region.series,
           itemStyle: {
             shadowColor: '#91cc75',
             borderType: 'dashed',
@@ -289,6 +314,10 @@ export default {
         }
       ]
     })
+    const collect = await getnodeCollect()
+    this.collect = collect.data
+    this.collectCount=this.collect.reduce((sum,item)=>sum+item.value,0)
+    console.log(this.collect)
     const myChart3 = echarts.init(this.$refs.box3)
     myChart3.setOption({
       tooltip: {
@@ -328,19 +357,40 @@ export default {
               }
             }
           },
-          data: [
-            { value: 62.5, name: '金燕龙合作商' },
-            { value: 12.5, name: '天华物业' },
-            { value: 12.5, name: '北京合作商' },
-            { value: 6.25, name: 'likede' },
-            { value: 6.25, name: '佳佳' }
-          ]
+          data: collect.data
         }
       ]
     })
   },
   methods: {
-
+    async removeActive(index) {
+     this.active = index
+      if (index === 0) {
+        const collectType = 1
+        const start = dayjs(new Date()).startOf('week').format('YYYY-MM-DD')
+        const end = dayjs(new Date()).format('YYYY-MM-DD')
+        const z1= await getamountCollect(collectType, start, end)
+        const z2= await getregionCollect(start, end)
+        this.ZYNamount = z1.data
+        this.ZYNregion = z2.data
+      } else if (index === 1) {
+        const collectType = 1
+        const start = dayjs(new Date()).startOf('month').format('YYYY-MM-DD')
+        const end = dayjs(new Date()).format('YYYY-MM-DD')
+        const y1= await getamountCollect(collectType, start, end)
+        const y2= await getregionCollect(start, end)
+        this.ZYNamount = y1.data
+        this.ZYNregion = y2.data
+      } else {
+        const collectType = 2
+        const start = dayjs(new Date()).startOf('year').format('YYYY-MM-DD')
+        const end = dayjs(new Date()).format('YYYY-MM-DD')
+        const n1= await getamountCollect(collectType, start, end)
+        const n2= await getregionCollect(start, end)
+        this.ZYNamount = n1.data
+        this.ZYNregion = n2.data
+      }
+    },
   }
 }
 </script>
@@ -628,13 +678,6 @@ export default {
       -webkit-box-pack: justify;
       justify-content: space-between;
       margin-top: 20px;
-      // .top {
-      //   display: inline-block;
-      //   margin-left: 10px;
-      //   text-align: center;
-      //   font-size: 12px;
-      //   line-height: 14px;
-      // }
         .top{
           width: 16px;
           height: 20px;
