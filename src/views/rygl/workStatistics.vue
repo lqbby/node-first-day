@@ -198,7 +198,7 @@ export default {
     // 工单状态
     async statusTatistics(start, end) {
       const res = await statusTatisticsApi(start, end)
-      // console.log(res)
+      console.log(res)
     },
     // 动态切换周月年
     async addClass(val) {
@@ -249,7 +249,7 @@ export default {
       const start = this.timeout[0]
       const end = this.timeout[1]
       const res = await statusTatisticsApi(start, end)
-      // console.log(res)
+      console.log(res)
     }
   }
 }
