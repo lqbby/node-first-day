@@ -256,6 +256,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.el-row.el-row--flex {
+    padding: 20px;
+}
 .Human-effect {
   //头部可视区域css样式
   .operate-Man {
