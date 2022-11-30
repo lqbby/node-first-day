@@ -178,6 +178,7 @@ export default {
     //查看详情
     clickFn(id) {
       this.xi = id
+      this.status = id.status
       if(this.xi.status === 1){
         this.status = '支付完成'
       }else if(this.status === 2){
