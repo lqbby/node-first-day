@@ -27,7 +27,7 @@ export const asyncRoutes = [
   {
     path: '/dwgl',
     component: Layout,
-    redirect: '/dwgl/dwglOne',
+    redirect: '/dwgl/region',
     name: 'dwgl',
     meta: {
       title: '点位管理',
@@ -35,22 +35,19 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'dwglOne',
-        component: () => import('@/views/dwgl/components/dwglOne'), // Parent router-view
-        name: 'dwglOne',
-        meta: { title: '区域管理' },
+        path: "/dwgl/region",
+        component: () => import("@/views/dwgl/area.vue"),
+        meta: { title: "区域管理" },
       },
       {
-        path: 'dwglTwo',
-        component: () => import('@/views/dwgl/components/dwglTwo'), // Parent router-view
-        name: 'dwglTwo',
-        meta: { title: '点位管理' },
+        path: "/dwgl/node",
+        component: () => import("@/views/dwgl/point.vue"),
+        meta: { title: "点位管理" },
       },
       {
-        path: 'dwglThree',
-        component: () => import('@/views/dwgl/components/dwglThree'),
-        name: 'dwglThree',
-        meta: { title: '合作商管理' },
+        path: "/dwgl/partner",
+        component: () => import("@/views/dwgl/partners.vue"),
+        meta: { title: "合作商管理" },
       },
     ],
   },
