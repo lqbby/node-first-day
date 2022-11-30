@@ -5,20 +5,18 @@ export const asyncRoutes = [
   {
     path: '/gdgl',
     component: Layout,
-    redirect: '/gdgl/gdglOne',
+    redirect: '/gdgl/goodsType',
     name: 'gdgl',
     meta: { title: '工单管理', icon: 'skill' },
     children: [
       {
-        path: 'gdglOne',
-        name: 'gdglOne',
-        component: () => import('@/views/gdgl/components/gdglOne'),
+        path: '/gdgl/operating',
+        component: () => import('@/views/gdgl/operating.vue'),
         meta: { title: '运营工单' }
       },
       {
-        path: 'gdglTwo',
-        name: 'gdglTwo',
-        component: () => import('@/views/gdgl/components/gdglTwo'),
+        path: '/gdgl/operations',
+        component: () => import('@/views/gdgl/operations.vue'),
         meta: { title: '运维工单' }
       }
     ]
