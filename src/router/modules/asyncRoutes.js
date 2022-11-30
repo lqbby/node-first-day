@@ -158,14 +158,13 @@ export const asyncRoutes = [
   },
   // 对账统计
   {
-    path: '/dztj',
+    path: "/dztj/index",
     component: Layout,
     children: [
       {
-        path: 'dztj',
-        name: 'dztj',
-        component: () => import('@/views/dztj'),
-        meta: { title: '对账统计', icon: 'money' }
+        path: "",
+        component: () => import("@/views/dztj"),
+        meta: { title: "对账统计", icon: "对账统计" }
       }
     ]
   }
