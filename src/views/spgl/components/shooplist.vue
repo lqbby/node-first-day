@@ -231,6 +231,8 @@
         class="upload-demo"
         action="https://likede2-admin.itheima.net/likede/api/vm-service/sku/upload"
         :on-preview="handlePreview"
+        :on-change="handleChange"
+        :file-list="fileList"
         :headers="headers"
         :auto-upload="false"
         style="display:flex;flex-direction: column;align-items: center;"
@@ -253,6 +255,7 @@ import { getshooplist,postshoop,putshoop } from '@/api/shoop/shooplist'
 export default {
   data(){
     return{
+      fileList:[],
       headers: {
         Authorization: this.$store.getters.token,
         Accept: 'application/json, text/plain',
@@ -325,7 +328,7 @@ export default {
      try{
        await this.$refs.shoopForm.validate()
        if(this.skuId){
-          await putshoop({...this.shoopForm,skuId:this.skuId})
+         await putshoop({...this.shoopForm,skuId:this.skuId})
           this.$message.success('编辑成功了')
        }else{
           this.shoopForm.price = this.shoopForm.price * 100
@@ -335,7 +338,7 @@ export default {
         this.Seach()
         this.beforeClose()
       }catch(err){
-          console.log(err);
+        console.log(err);
       }
     },
     async putshoop(id){
@@ -374,14 +377,13 @@ export default {
       this.classlist = currentPageRecords
     },
         // 图片上传
-    handleAvatarSuccess (res) {
-      console.log(res);
-      this.shoopForm.skuImage = res
+    handleAvatarSuccess (res,file) {
+      this.shoopForm.skuImage = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
       const isPNG = file.type === 'image/png'
-      const isLt2M = file.size / 1024 / 1024 / 102.4 < 100
+      const isLt2M = file.size / 1024 / 1024 < 1
 
       if (!isJPG && !isPNG) {
         this.$message.error('上传头像图片只能是 JPG 格式!')
@@ -393,7 +395,7 @@ export default {
     },
     // 文件上传
     submitprimary() {
-        this.$refs.upload.submit();
+      this.$refs.upload.submit();
         this.importdialog = false
       },
       handleRemove(file, fileList) {
@@ -401,7 +403,10 @@ export default {
       },
       handlePreview(file) {
         console.log(file);
-      }
+      },
+      handleChange(){
+        this.fileList = fileList.slice(-1);
+      },
   }
 }
 </script>
